@@ -8,7 +8,8 @@ let socket: TypedSocket | null = null;
 export function connectSocket(token: string): TypedSocket {
   if (socket?.connected) return socket;
 
-  socket = io('/', {
+  const serverUrl = import.meta.env.VITE_API_URL || '/';
+  socket = io(serverUrl, {
     auth: { token },
     transports: ['websocket', 'polling'],
     reconnection: true,

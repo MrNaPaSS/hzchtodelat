@@ -4,7 +4,7 @@ import { authMiddleware } from '../middleware/auth.js';
 import { asyncHandler, BadRequestError, NotFoundError } from '../middleware/errorHandler.js';
 import { gameManager } from '../game/index.js';
 import { BotPlayer } from '../game/BotPlayer.js';
-import { GameMode, DeckSize, ThrowInRule } from 'shared';
+import { GameMode, DeckSize, ThrowInRule, GameSettings } from 'shared';
 
 const router = Router();
 
@@ -43,7 +43,7 @@ router.post(
       throw new BadRequestError('Already in a game. Leave current game first.');
     }
 
-    const gameId = gameManager.createGame(settings);
+    const gameId = gameManager.createGame(settings as GameSettings);
 
     // Auto-join the creator
     gameManager.joinGame(gameId, {

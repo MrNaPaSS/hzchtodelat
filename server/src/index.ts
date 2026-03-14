@@ -33,7 +33,7 @@ async function bootstrap(): Promise<void> {
   app.use(helmet());
   app.use(
     cors({
-      origin: config.NODE_ENV === 'development' ? true : config.CLIENT_URL,
+      origin: [config.CLIENT_URL, 'http://localhost:5173', 'http://localhost:3000'],
       credentials: true,
     }),
   );
@@ -82,8 +82,8 @@ async function bootstrap(): Promise<void> {
   setupSocketIO(httpServer);
 
   // ─── Start Server ─────────────────────────────────────
-  httpServer.listen(config.PORT, () => {
-    logger.info(`🚀 Server running on port ${config.PORT} (${config.NODE_ENV})`);
+  httpServer.listen(config.PORT, '0.0.0.0', () => {
+    logger.info(`🚀 Server running on 0.0.0.0:${config.PORT} (${config.NODE_ENV})`);
   });
 
   // ─── Graceful Shutdown ────────────────────────────────

@@ -95,7 +95,7 @@ router.post(
       throw new BadRequestError(`Need at least ${config.NMNH_EXCHANGE_RATE} NMNH for 1 Star`);
     }
 
-    await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx: any) => {
       await tx.user.update({
         where: { id: userId },
         data: {
@@ -163,7 +163,7 @@ router.post(
       throw new BadRequestError(`Insufficient Stars balance. Need ${starsRequired} Stars for ${amountNmnh} NMNH.`);
     }
 
-    await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx: any) => {
       await tx.user.update({
         where: { id: userId },
         data: {
@@ -278,7 +278,7 @@ router.post(
       throw new BadRequestError('Insufficient Stars balance');
     }
 
-    await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx: any) => {
       await tx.user.update({
         where: { id: userId },
         data: { starsBalance: { decrement: amount } },

@@ -17,8 +17,9 @@ export class EconomyManager {
         return false;
       }
 
-      await prisma.$transaction(async (tx) => {
-        await tx.user.update({
+      await prisma.$transaction(async (tx: any) => {
+        const txa = tx as any;
+        await txa.user.update({
           where: { id: userId },
           data: { nmnhBalance: { decrement: amount } },
         });
@@ -52,8 +53,9 @@ export class EconomyManager {
     try {
       const currency: 'stars' | 'nmnh' = isStars ? 'stars' : 'nmnh';
       
-      await prisma.$transaction(async (tx) => {
-        await tx.user.update({
+      await prisma.$transaction(async (tx: any) => {
+        const txa = tx as any;
+        await txa.user.update({
           where: { id: userId },
           data: isStars 
             ? { starsBalance: { increment: amount }, totalStarsWon: { increment: amount } }
@@ -85,8 +87,9 @@ export class EconomyManager {
    */
   async refundStake(userId: string, amount: number, gameId: string): Promise<void> {
     try {
-      await prisma.$transaction(async (tx) => {
-        await tx.user.update({
+      await prisma.$transaction(async (tx: any) => {
+        const txa = tx as any;
+        await txa.user.update({
           where: { id: userId },
           data: { nmnhBalance: { increment: amount } },
         });

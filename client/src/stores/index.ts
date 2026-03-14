@@ -29,7 +29,11 @@ export const useAuthStore = create<AuthState>((set) => ({
   authenticate: async (initData: string) => {
     set({ isLoading: true, error: null });
     try {
-      const { token, user } = await api.authenticate(initData);
+      const response = await api.authenticate(initData);
+      if (!response || !response.token) {
+        throw new Error('Server returned empty authentication data');
+      }
+      const { token, user } = response;
       api.setToken(token);
       connectSocket(token);
 

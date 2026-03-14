@@ -16,7 +16,7 @@ const userSocketMap = new Map<string, string>();
 export function setupSocketIO(httpServer: HTTPServer): SocketIOServer {
   const io = new SocketIOServer<ClientToServerEvents, ServerToClientEvents>(httpServer, {
     cors: {
-      origin: config.CLIENT_URL,
+      origin: [config.CLIENT_URL, 'http://localhost:5173', 'http://localhost:3000'],
       methods: ['GET', 'POST'],
       credentials: true,
     },

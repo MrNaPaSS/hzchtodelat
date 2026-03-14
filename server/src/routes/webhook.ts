@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { prisma } from '../lib/prisma.js';
 import { logger } from '../lib/logger.js';
 import { bot } from '../lib/telegram.js';
+import { config } from '../config/index.js';
 
 const router = Router();
 

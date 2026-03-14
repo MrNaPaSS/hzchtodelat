@@ -34,8 +34,18 @@ export default function App() {
     if (tg) {
       tg.ready();
       tg.expand();
+      // Double expand for some devices and request full height
+      setTimeout(() => {
+        tg.expand();
+      }, 200);
+      
       tg.setBackgroundColor('#060B1A');
       tg.setHeaderColor('#060B1A');
+      
+      // Locking orientation if possible (some devices support this)
+      if ((tg as any).requestFullscreen) {
+        (tg as any).requestFullscreen();
+      }
     }
 
     const initData = tg?.initData;
