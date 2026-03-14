@@ -154,7 +154,7 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
     try {
       const { gameId, password } = await api.createGame(settings);
       const socket = getSocket();
-      socket?.emit('game:join', { gameId, password });
+      socket?.emit('game:join', { gameId });
       
       if (!settings.isPrivate) {
         set({ view: 'searching' });
@@ -170,7 +170,7 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
     try {
       await api.joinGame(gameId, password);
       const socket = getSocket();
-      socket?.emit('game:join', { gameId, password });
+      socket?.emit('game:join', { gameId });
     } catch (err: any) {
       set({ error: err.message, isLoading: false });
     }
