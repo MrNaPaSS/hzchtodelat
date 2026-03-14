@@ -50,6 +50,18 @@ export class TelegramBot {
   async setWebhook(url: string) {
     return this.callApi('setWebhook', { url });
   }
+
+  /**
+   * Sends a text message
+   */
+  async sendMessage(chatId: number, text: string, replyMarkup?: any) {
+    return this.callApi('sendMessage', {
+      chat_id: chatId,
+      text,
+      reply_markup: replyMarkup,
+      parse_mode: 'HTML',
+    });
+  }
 }
 
 export const bot = new TelegramBot();

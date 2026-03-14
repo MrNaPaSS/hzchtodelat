@@ -62,6 +62,37 @@ router.post(
       return res.sendStatus(200);
     }
 
+    // 3. Handle Commands and Messages
+    if (update.message?.text) {
+      const { text, chat, from } = update.message;
+
+      if (text.startsWith('/start')) {
+        const welcomeMessage = 
+          `Привет, <b>${from.first_name || 'друг'}</b>! 👋\n\n` +
+          `Добро пожаловать в игру <b>Дурак</b>!\n\n` +
+          `Здесь ты можешь играть с друзьями или случайными соперниками, зарабатывать монеты NMNH и обменивать их на Telegram Stars. ⭐\n\n` +
+          `Нажми кнопку ниже, чтобы начать! 👇`;
+
+        await bot.sendMessage(chat.id, welcomeMessage, {
+          inline_keyboard: [
+            [
+              {
+                text: '🚀 Играть в Дурака',
+                web_app: { url: config.CLIENT_URL }
+              }
+            ],
+            [
+              {
+                text: '📢 Канал проекта',
+                url: 'https://t.me/your_channel' // Замените на реальный канал
+              }
+            ]
+          ]
+        });
+        return res.sendStatus(200);
+      }
+    }
+
     res.sendStatus(200);
   }
 );
