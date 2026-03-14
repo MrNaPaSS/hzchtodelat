@@ -4,16 +4,7 @@ import { useAuthStore, useGameStore, useUIStore } from '../stores';
 import { api } from '../api/client';
 import './Lobby.css';
 
-interface GameRoom {
-  gameId: string;
-  settings: {
-    mode: string;
-    stake: number;
-    maxPlayers: number;
-    deckSize: number;
-  };
-  playerCount: number;
-}
+// Removed unused GameRoom interface
 
 const FEATURE_TILES = [
   { id: 'create',      icon: '🏠', label: 'Комната',   color: '#EF4444', bg: 'rgba(239,68,68,0.18)',    badge: null      },
@@ -32,7 +23,7 @@ const MODE_LABELS: Record<string, string> = {
 
 export default function Lobby() {
   const { user } = useAuthStore();
-  const { quickMatch, playWithBot, createGame, joinGame, createdGameCode, setCreatedGameCode, isLoading, error } = useGameStore();
+  const { quickMatch, playWithBot, createGame, joinGame, createdGameCode, setCreatedGameCode, isLoading } = useGameStore();
   const { setScreen } = useUIStore();
 
   const [rooms, setRooms] = useState<any[]>([]);
