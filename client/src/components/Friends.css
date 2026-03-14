@@ -1,0 +1,349 @@
+/* ============================================================
+ * FRIENDS / LEADERBOARD — Enterprise redesign
+ * ============================================================ */
+
+.friends {}
+
+/* ── Tabs ───────────────────────────────────────────────── */
+
+.friends-tabs {
+  display: flex;
+  gap: var(--space-2);
+  background: var(--color-bg-secondary);
+  padding: 4px;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-border);
+}
+
+.friends-tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text-muted);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.friends-tab.active {
+  background: var(--color-bg-card);
+  color: var(--color-text-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ── Podium ─────────────────────────────────────────────── */
+
+.podium {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-2) 0 0;
+}
+
+.podium-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  flex: 1;
+  max-width: 120px;
+}
+
+.podium-1 { order: 2; }
+.podium-2 { order: 1; }
+.podium-3 { order: 3; }
+
+/* ── Podium Avatar ──────────────────────────────────────── */
+
+.podium-avatar-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.podium-crown-icon {
+  font-size: 1.5rem;
+  margin-bottom: 2px;
+  animation: float 3s ease-in-out infinite;
+}
+
+.podium-avatar,
+.podium-avatar-placeholder {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--color-border);
+  display: block;
+}
+
+.podium-1 .podium-avatar,
+.podium-1 .podium-avatar-placeholder {
+  width: 70px;
+  height: 70px;
+  border-color: var(--color-gold);
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.35);
+}
+
+.podium-2 .podium-avatar,
+.podium-2 .podium-avatar-placeholder {
+  border-color: #C0C0C0;
+}
+
+.podium-3 .podium-avatar,
+.podium-3 .podium-avatar-placeholder {
+  border-color: #CD7F32;
+}
+
+.podium-avatar-placeholder {
+  background: var(--color-bg-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.25rem;
+  color: var(--color-text-primary);
+}
+
+/* ── Podium Base ────────────────────────────────────────── */
+
+.podium-name {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  text-align: center;
+  max-width: 90px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.podium-rating {
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--color-text-secondary);
+}
+
+.podium-rating-gold { color: var(--color-gold); }
+
+.podium-base {
+  width: 100%;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--text-sm);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.podium-base-1 {
+  background: linear-gradient(180deg, rgba(255,215,0,0.25) 0%, rgba(255,215,0,0.12) 100%);
+  border: 1px solid rgba(255,215,0,0.30);
+  height: 64px;
+  color: var(--color-gold);
+}
+
+.podium-base-2 {
+  background: linear-gradient(180deg, rgba(192,192,192,0.20) 0%, rgba(192,192,192,0.08) 100%);
+  border: 1px solid rgba(192,192,192,0.25);
+  height: 48px;
+  color: #C0C0C0;
+}
+
+.podium-base-3 {
+  background: linear-gradient(180deg, rgba(205,127,50,0.20) 0%, rgba(205,127,50,0.08) 100%);
+  border: 1px solid rgba(205,127,50,0.25);
+  height: 36px;
+  color: #CD7F32;
+}
+
+/* ── Leaderboard list ───────────────────────────────────── */
+
+.lb-skeletons {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.lb-skeleton {
+  height: 58px;
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-card);
+}
+
+.lb-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.lb-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  transition: border-color var(--transition-fast);
+}
+
+.lb-row:hover {
+  border-color: var(--color-border-hover);
+}
+
+.lb-row.lb-me {
+  border-color: var(--color-border-accent);
+  background: rgba(0, 210, 106, 0.04);
+}
+
+.lb-rank {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  width: 36px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.lb-avatar {
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+}
+
+.lb-avatar img,
+.lb-avatar-placeholder {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.lb-avatar-placeholder {
+  background: var(--color-bg-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: var(--text-sm);
+  border-radius: 50%;
+}
+
+.lb-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.lb-name {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lb-you {
+  font-size: var(--text-xs);
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+.lb-wins {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.lb-rating {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--color-gold);
+  font-size: var(--text-sm);
+  flex-shrink: 0;
+}
+
+/* ── Friends section ────────────────────────────────────── */
+
+.friends-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.invite-card {
+  border-radius: var(--radius-2xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  border: 1px solid rgba(0, 210, 106, 0.15);
+  text-align: center;
+  align-items: center;
+}
+
+.invite-visual {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(0, 210, 106, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+}
+
+.invite-info h3 {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  margin-bottom: var(--space-1);
+}
+
+.invite-info p {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.invite-card .btn {
+  width: 100%;
+  justify-content: center;
+}
+
+/* ── Friends empty ──────────────────────────────────────── */
+
+.friends-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-10);
+  text-align: center;
+}
+
+.friends-empty-icon {
+  font-size: 3.5rem;
+  opacity: 0.3;
+  margin-bottom: var(--space-2);
+}
+
+.friends-empty p {
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.friends-empty-hint {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}

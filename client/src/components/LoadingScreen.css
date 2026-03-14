@@ -1,0 +1,75 @@
+/* ============================================================
+ * LOADING SCREEN — Spade logo + progress bar
+ * ============================================================ */
+
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-primary);
+  z-index: 9999;
+}
+
+.loading-content {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.loading-logo {
+  margin-bottom: var(--space-4);
+}
+
+.loading-spade {
+  display: block;
+  font-size: 5rem;
+  line-height: 1;
+  background: linear-gradient(135deg, var(--color-primary) 0%, #00A855 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 24px rgba(0, 210, 106, 0.45));
+}
+
+.loading-title {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: 800;
+  margin-bottom: var(--space-5);
+  background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.6) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.loading-bar {
+  width: 180px;
+  height: 3px;
+  background: var(--color-bg-tertiary);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  margin: 0 auto var(--space-3);
+  position: relative;
+}
+
+.loading-bar-fill {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  height: 100%;
+  width: 60%;
+  background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+  border-radius: var(--radius-full);
+  animation: loading-slide 1.6s ease-in-out infinite;
+}
+
+@keyframes loading-slide {
+  0%   { left: -60%; }
+  100% { left: 160%; }
+}
+
+.loading-subtitle {
+  font-size: var(--text-sm);
+}

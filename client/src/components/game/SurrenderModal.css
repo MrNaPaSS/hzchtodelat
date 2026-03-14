@@ -1,0 +1,92 @@
+/* ─────────────────────────────────────────────────────────
+ * Surrender Modal
+ * ───────────────────────────────────────────────────────── */
+
+.sm-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6);
+}
+
+.sm-card {
+  width: 100%;
+  max-width: 340px;
+  padding: var(--space-8) var(--space-6);
+  border-radius: var(--radius-2xl);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  box-shadow: var(--shadow-xl);
+}
+
+.sm-icon {
+  font-size: 3rem;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4));
+}
+
+.sm-title {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 800;
+}
+
+.sm-desc {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  max-width: 260px;
+}
+
+.sm-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: 100%;
+  margin-top: var(--space-2);
+}
+
+.sm-btn {
+  width: 100%;
+  padding: var(--space-4) var(--space-6);
+  border-radius: var(--radius-xl);
+  font-size: var(--text-base);
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.sm-cancel {
+  background: var(--color-bg-tertiary);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+}
+
+.sm-cancel:hover {
+  background: var(--color-bg-hover);
+  border-color: var(--color-border-hover);
+}
+
+.sm-confirm {
+  background: linear-gradient(135deg, var(--color-red) 0%, #B91C1C 100%);
+  color: #fff;
+  box-shadow: 0 0 24px rgba(239, 68, 68, 0.40);
+}
+
+.sm-confirm:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.sm-confirm:active {
+  transform: translateY(0);
+}

@@ -1,0 +1,77 @@
+/* ─────────────────────────────────────────────────────────
+ * Card Back
+ * ───────────────────────────────────────────────────────── */
+
+.card-back {
+  position: relative;
+  width: var(--card-width);
+  height: var(--card-height);
+  border-radius: var(--card-radius);
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.42),
+    0 1px 3px rgba(0, 0, 0, 0.28);
+}
+
+.card-back.cb-sz-sm {
+  width: calc(var(--card-width) * 0.7);
+  height: calc(var(--card-height) * 0.7);
+  border-radius: calc(var(--card-radius) * 0.8);
+}
+.card-back.cb-sz-lg {
+  width: 80px;
+  height: 115px;
+  border-radius: 10px;
+}
+
+.cb-inner {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(148deg, #005F30 0%, #009948 48%, #006B36 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Crosshatch pattern */
+.cb-pattern {
+  position: absolute;
+  inset: 5px;
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      rgba(255,255,255,0.045) 0px,
+      rgba(255,255,255,0.045) 2px,
+      transparent 2px,
+      transparent 11px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(255,255,255,0.045) 0px,
+      rgba(255,255,255,0.045) 2px,
+      transparent 2px,
+      transparent 11px
+    );
+  border-radius: calc(var(--card-radius) - 3px);
+}
+
+/* Inner border frame */
+.cb-border {
+  position: absolute;
+  inset: 5px;
+  border: 1.5px solid rgba(255, 255, 255, 0.18);
+  border-radius: calc(var(--card-radius) - 3px);
+  pointer-events: none;
+}
+
+/* Logo */
+.cb-logo {
+  position: relative;
+  font-size: 20px;
+  opacity: 0.35;
+  filter: grayscale(1) brightness(3);
+  pointer-events: none;
+}
+.card-back.cb-sz-sm .cb-logo { font-size: 13px; }
+.card-back.cb-sz-lg .cb-logo { font-size: 30px; }

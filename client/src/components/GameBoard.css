@@ -1,0 +1,247 @@
+/* ============================================================
+ * Game Board — Enterprise Durak layout
+ * Full-screen fixed flex-column layout
+ * ============================================================ */
+
+.gb {
+  position: fixed;
+  inset: 0;
+  background: var(--table-bg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: box-shadow 0.4s ease;
+}
+
+/* Subtle edge glow by phase */
+.gb.phase-atk {
+  box-shadow: inset 0 0 80px rgba(0, 210, 106, 0.06);
+}
+.gb.phase-def {
+  box-shadow: inset 0 0 80px rgba(59, 130, 246, 0.06);
+}
+
+/* ── Top header ──────────────────────────────────────────── */
+
+.gb-header {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: calc(env(safe-area-inset-top, 6px) + 6px) 16px 8px;
+  background: rgba(6, 11, 26, 0.88);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 30;
+}
+
+.gb-surrender {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: rgba(239, 68, 68, 0.65);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 0;
+  transition: color var(--transition-fast);
+  min-width: 60px;
+}
+.gb-surrender:hover { color: var(--color-red); }
+
+.gb-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+.gb-mode {
+  font-size: 9px;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  font-weight: 700;
+}
+.gb-stake {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--text-sm);
+  color: var(--color-gold);
+}
+
+/* Right side buttons group */
+.gb-header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 60px;
+  justify-content: flex-end;
+}
+
+.gb-chat-btn {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+.gb-chat-btn.active,
+.gb-chat-btn:hover {
+  background: rgba(255, 255, 255, 0.10);
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+.gb-chat-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  min-width: 16px;
+  height: 16px;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 800;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3px;
+  pointer-events: none;
+}
+
+.gb-discard {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* ── Opponent zone ───────────────────────────────────────── */
+
+.gb-opponent {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 12px 0;
+  min-height: 128px;
+}
+
+/* ── Center zone (table + deck) ─────────────────────────── */
+
+.gb-center {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ── Action wrap ─────────────────────────────────────────── */
+
+.gb-action-wrap {
+  flex: 0 0 auto;
+  position: relative;
+  padding: 6px 12px;
+}
+
+/* ── My hand zone ────────────────────────────────────────── */
+
+.gb-hand {
+  flex: 0 0 auto;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 4px calc(env(safe-area-inset-bottom, 8px) + 10px);
+  min-height: 148px;
+  transition: background 0.35s ease;
+}
+
+.gb-hand.turn-atk {
+  background: linear-gradient(to top, rgba(0, 210, 106, 0.09) 0%, transparent 100%);
+}
+.gb-hand.turn-def {
+  background: linear-gradient(to top, rgba(59, 130, 246, 0.09) 0%, transparent 100%);
+}
+.gb-hand.turn-throwing {
+  background: linear-gradient(to top, rgba(249, 115, 22, 0.09) 0%, transparent 100%);
+}
+
+/* My player chip — pinned to bottom-left */
+.gb-my-chip {
+  position: absolute;
+  bottom: calc(env(safe-area-inset-bottom, 8px) + 14px);
+  left: 10px;
+  z-index: 10;
+}
+
+/* Push fan to the right of the chip */
+.gb-hand .hand-fan {
+  padding-left: 118px;
+  width: 100%;
+}
+
+/* ── Waiting Overlay ─────────────────────────────────────── */
+
+.gb-waiting-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  background: rgba(6, 11, 26, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.waiting-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 32px;
+  border-radius: var(--radius-2xl);
+  text-align: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.waiting-spinner {
+  font-size: 3rem;
+  animation: waiting-spin 2s linear infinite;
+  margin-bottom: 8px;
+}
+
+@keyframes waiting-spin {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.1); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+.waiting-content h2 {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 800;
+  color: white;
+  margin: 0;
+}
+
+.waiting-content p {
+  color: var(--color-text-muted);
+  font-size: 14px;
+  margin: 0;
+}

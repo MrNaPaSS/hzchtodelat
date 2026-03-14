@@ -1,0 +1,136 @@
+.ap {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-border);
+  background: rgba(6, 11, 26, 0.84);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: var(--shadow-xl);
+}
+
+/* Timer */
+.ap-timer-track {
+  height: 3px;
+  background: rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+}
+.ap-timer-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-primary) 0%, #00FF99 100%);
+  transform-origin: left center;
+}
+
+/* Row */
+.ap-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  min-height: 54px;
+}
+
+.ap-divider {
+  width: 1px; height: 24px;
+  background: rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+}
+
+/* Emoji toggle */
+.ap-emoji-btn {
+  width: 36px; height: 36px;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 18px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; cursor: pointer;
+  transition: all var(--transition-fast);
+}
+.ap-emoji-btn:hover,
+.ap-emoji-btn.active {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+/* Action buttons */
+.ap-btn {
+  flex: 1;
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 4px;
+  padding: 9px 12px;
+  border-radius: var(--radius-lg);
+  font-size: var(--text-sm); font-weight: 700;
+  border: none; cursor: pointer;
+  white-space: nowrap;
+  transition: filter var(--transition-fast);
+}
+.ap-btn.primary {
+  background: linear-gradient(135deg, var(--color-primary) 0%, #00B85C 100%);
+  color: #fff;
+  box-shadow: 0 0 14px rgba(0, 210, 106, 0.32);
+}
+.ap-btn.primary:hover { filter: brightness(1.1); }
+.ap-btn.secondary {
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--color-text-primary);
+  border: 1px solid rgba(255, 255, 255, 0.11);
+}
+.ap-btn.secondary:hover { background: rgba(255, 255, 255, 0.12); }
+.ap-btn.danger {
+  background: rgba(239, 68, 68, 0.18);
+  color: #F87171;
+  border: 1px solid rgba(239, 68, 68, 0.28);
+}
+.ap-btn.danger:hover { background: rgba(239, 68, 68, 0.28); }
+.ap-btn.warning {
+  background: rgba(249, 115, 22, 0.18);
+  color: #FB923C;
+  border: 1px solid rgba(249, 115, 22, 0.28);
+}
+.ap-btn.warning:hover { background: rgba(249, 115, 22, 0.28); }
+
+/* Hint */
+.ap-hint {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  font-weight: 500;
+  width: 100%;
+  text-align: center;
+  padding: 0 4px;
+}
+
+/* Waiting */
+.ap-waiting {
+  display: flex; align-items: center;
+  gap: 8px; width: 100%; justify-content: center;
+  font-size: var(--text-sm); color: var(--color-text-muted); font-weight: 500;
+}
+.ap-dots { display: flex; gap: 3px; }
+.ap-dots span {
+  width: 4px; height: 4px; border-radius: 50%;
+  background: var(--color-text-muted);
+  animation: dot-pulse 1.2s ease-in-out infinite;
+}
+.ap-dots span:nth-child(2) { animation-delay: 0.2s; }
+.ap-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+/* Opponent timer (dimmer) */
+.ap-timer-fill.opp {
+  background: linear-gradient(90deg, rgba(100, 116, 139, 0.5) 0%, rgba(148, 163, 184, 0.5) 100%);
+}
+
+/* Taking hint (defender announced take) */
+.ap-taking-hint {
+  font-size: var(--text-xs);
+  color: #FB923C;
+  font-weight: 600;
+  margin-right: 4px;
+  white-space: nowrap;
+}
+
+@keyframes dot-pulse {
+  0%, 100% { transform: translateY(0); opacity: 0.4; }
+  50%       { transform: translateY(-4px); opacity: 1; }
+}

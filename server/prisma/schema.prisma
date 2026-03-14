@@ -1,0 +1,228 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+// ============================================================
+// USERS
+// ============================================================
+
+model User {
+  id            String   @id @default(uuid())
+  telegramId    BigInt   @unique @map("telegram_id")
+  username      String   @default("")
+  firstName     String   @map("first_name")
+  lastName      String?  @map("last_name")
+  avatarUrl     String   @default("") @map("avatar_url")
+  starsBalance  Int      @default(0) @map("stars_balance")
+  nmnhBalance   Int      @default(0) @map("nmnh_balance")
+  rating        Int      @default(1000)
+  xp            Int      @default(0)
+  level         Int      @default(1)
+  vipUntil      DateTime? @map("vip_until")
+  referralCode  String   @unique @map("referral_code")
+  referredById  String?  @map("referred_by_id")
+
+  // Settings
+  soundEnabled   Boolean @default(true) @map("sound_enabled")
+  vibrationEnabled Boolean @default(true) @map("vibration_enabled")
+  hintsEnabled   Boolean @default(true) @map("hints_enabled")
+  language       String  @default("ru")
+  animationSpeed String  @default("normal") @map("animation_speed")
+
+  // Stats
+  gamesPlayed   Int @default(0) @map("games_played")
+  gamesWon      Int @default(0) @map("games_won")
+  gamesLost     Int @default(0) @map("games_lost")
+  gamesDraw     Int @default(0) @map("games_draw")
+  longestStreak Int @default(0) @map("longest_streak")
+  currentStreak Int @default(0) @map("current_streak")
+  totalStarsWon Int @default(0) @map("total_stars_won")
+  totalNmnhEarned Int @default(0) @map("total_nmnh_earned")
+
+  lastDailyBonusAt   DateTime? @map("last_daily_bonus_at")
+  lastExchangeAt     DateTime? @map("last_exchange_at")
+  consecutiveLoginDays Int @default(0) @map("consecutive_login_days")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  referredBy      User?           @relation("Referrals", fields: [referredById], references: [id])
+  referrals       User[]          @relation("Referrals")
+  gamePlayers     GamePlayer[]
+  transactions    Transaction[]
+  inventory       UserInventory[]
+  userQuests      UserQuest[]
+  sentFriendships   Friendship[]  @relation("SentFriendships")
+  receivedFriendships Friendship[] @relation("ReceivedFriendships")
+
+  @@map("users")
+}
+
+// ============================================================
+// GAMES
+// ============================================================
+
+model Game {
+  id           String   @id @default(uuid())
+  mode         String
+  deckSize     Int      @map("deck_size")
+  stake        Int
+  maxPlayers   Int      @map("max_players")
+  throwInRule  String   @default("neighbors") @map("throw_in_rule")
+  allowDraw    Boolean  @default(false) @map("allow_draw")
+  turnTimer    Int      @default(30) @map("turn_timer")
+  isPrivate    Boolean  @default(false) @map("is_private")
+  passwordHash String?  @map("password_hash")
+  status       String   @default("waiting")
+  winnerId     String?  @map("winner_id")
+  loserId      String?  @map("loser_id")
+  isDraw       Boolean  @default(false) @map("is_draw")
+  totalPot     Int      @default(0) @map("total_pot")
+  commission   Int      @default(0)
+  startedAt    DateTime? @map("started_at")
+  finishedAt   DateTime? @map("finished_at")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  players GamePlayer[]
+
+  @@map("games")
+}
+
+model GamePlayer {
+  id        String @id @default(uuid())
+  gameId    String @map("game_id")
+  userId    String @map("user_id")
+  position  Int
+  result    String?
+  payout    Int     @default(0)
+  nmnhEarned Int   @default(0) @map("nmnh_earned")
+  ratingChange Int @default(0) @map("rating_change")
+
+  game Game @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([gameId, userId])
+  @@map("game_players")
+}
+
+// ============================================================
+// TRANSACTIONS
+// ============================================================
+
+model Transaction {
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id")
+  type        String
+  currency    String
+  amount      Int
+  referenceId String?  @map("reference_id")
+  status      String   @default("completed")
+  description String?
+  metadata    String?  @default("{}")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("transactions")
+}
+
+// ============================================================
+// MARKETPLACE
+// ============================================================
+
+model MarketplaceItem {
+  id             String    @id @default(uuid())
+  category       String
+  name           String
+  description    String
+  rarity         String    @default("common")
+  priceStars     Int       @map("price_stars")
+  priceNmnh      Int?      @map("price_nmnh")
+  previewUrl     String    @default("") @map("preview_url")
+  assetKey       String    @unique @map("asset_key")
+  isLimited      Boolean   @default(false) @map("is_limited")
+  availableUntil DateTime? @map("available_until")
+  discount       Int?
+  sortOrder      Int       @default(0) @map("sort_order")
+  active         Boolean   @default(true)
+  createdAt      DateTime  @default(now()) @map("created_at")
+
+  inventory UserInventory[]
+
+  @@map("marketplace_items")
+}
+
+model UserInventory {
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id")
+  itemId      String   @map("item_id")
+  equipped    Boolean  @default(false)
+  acquiredAt  DateTime @default(now()) @map("acquired_at")
+
+  user User            @relation(fields: [userId], references: [id])
+  item MarketplaceItem @relation(fields: [itemId], references: [id])
+
+  @@unique([userId, itemId])
+  @@map("user_inventory")
+}
+
+// ============================================================
+// QUESTS
+// ============================================================
+
+model Quest {
+  id          String  @id @default(uuid())
+  type        String
+  title       String  @unique
+  description String
+  targetValue Int     @map("target_value")
+  rewardNmnh  Int     @map("reward_nmnh")
+  rewardStars Int     @default(0) @map("reward_stars")
+  icon        String  @default("🎯")
+  active      Boolean @default(true)
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  userQuests UserQuest[]
+
+  @@map("quests")
+}
+
+model UserQuest {
+  id        String    @id @default(uuid())
+  userId    String    @map("user_id")
+  questId   String    @map("quest_id")
+  progress  Int       @default(0)
+  completed Boolean   @default(false)
+  claimed   Boolean   @default(false)
+  resetsAt  DateTime? @map("resets_at")
+
+  user  User  @relation(fields: [userId], references: [id])
+  quest Quest @relation(fields: [questId], references: [id])
+
+  @@unique([userId, questId])
+  @@map("user_quests")
+}
+
+// ============================================================
+// SOCIAL
+// ============================================================
+
+model Friendship {
+  id        String   @id @default(uuid())
+  senderId  String   @map("sender_id")
+  receiverId String  @map("receiver_id")
+  status    String   @default("pending")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  sender   User @relation("SentFriendships", fields: [senderId], references: [id])
+  receiver User @relation("ReceivedFriendships", fields: [receiverId], references: [id])
+
+  @@unique([senderId, receiverId])
+  @@map("friendships")
+}

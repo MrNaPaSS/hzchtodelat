@@ -1,0 +1,248 @@
+/* ============================================================
+ * QUESTS — Enterprise redesign
+ * ============================================================ */
+
+.quests {}
+
+/* ── Tabs ───────────────────────────────────────────────── */
+
+.quests-tabs {
+  display: flex;
+  gap: var(--space-2);
+  background: var(--color-bg-secondary);
+  padding: 4px;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-border);
+}
+
+.quests-tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--color-text-muted);
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.quests-tab.active {
+  background: var(--color-bg-card);
+  color: var(--color-text-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ── Summary bar ────────────────────────────────────────── */
+
+.quests-summary {
+  padding: var(--space-4);
+  border-radius: var(--radius-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.summary-info {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+
+.summary-done {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 800;
+  color: var(--color-primary);
+}
+
+.summary-label {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.summary-bar {
+  height: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.summary-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-primary) 0%, #00FF80 100%);
+  border-radius: var(--radius-full);
+  transition: width var(--transition-slow);
+  min-width: 4px;
+}
+
+/* ── Skeletons ──────────────────────────────────────────── */
+
+.quest-skeletons {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.quest-skeleton {
+  height: 86px;
+  border-radius: var(--radius-xl);
+  background: var(--color-bg-card);
+}
+
+/* ── Quest list ─────────────────────────────────────────── */
+
+.quests-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* ── Quest card ─────────────────────────────────────────── */
+
+.quest-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  border-radius: var(--radius-xl);
+  transition: all var(--transition-fast);
+}
+
+.quest-card.quest-claimed {
+  opacity: 0.5;
+}
+
+.quest-card.quest-ready {
+  border-color: rgba(0, 210, 106, 0.30);
+  box-shadow: 0 0 12px rgba(0, 210, 106, 0.08);
+}
+
+/* ── Quest icon ─────────────────────────────────────────── */
+
+.quest-icon-wrap {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.quest-icon {
+  font-size: 1.75rem;
+}
+
+.quest-ready-dot {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  border: 2px solid var(--color-bg-primary);
+  box-shadow: 0 0 6px var(--color-primary);
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* ── Quest body ─────────────────────────────────────────── */
+
+.quest-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.quest-title {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.quest-desc {
+  font-size: var(--text-xs);
+  margin-bottom: var(--space-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.quest-progress {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.quest-bar {
+  flex: 1;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.quest-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-primary) 0%, #00FF80 100%);
+  border-radius: var(--radius-full);
+  transition: width var(--transition-slow);
+  min-width: 4px;
+}
+
+.quest-progress-text {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+/* ── Quest reward ───────────────────────────────────────── */
+
+.quest-reward {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-1);
+}
+
+.quest-check {
+  font-size: 1.5rem;
+}
+
+.quest-rewards-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  align-items: flex-end;
+}
+
+.claim-btn {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* ── Empty ──────────────────────────────────────────────── */
+
+.quests-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-12);
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.quests-empty-icon {
+  font-size: 3rem;
+  opacity: 0.4;
+}

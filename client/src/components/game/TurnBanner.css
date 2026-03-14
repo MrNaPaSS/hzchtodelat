@@ -1,0 +1,66 @@
+/* ─────────────────────────────────────────────────────────
+ * Turn Banner — animated phase announcement
+ * ───────────────────────────────────────────────────────── */
+
+.tb {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: var(--z-overlay);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  border-radius: var(--radius-full);
+  backdrop-filter: blur(24px) saturate(1.8);
+  -webkit-backdrop-filter: blur(24px) saturate(1.8);
+  border: 1.5px solid;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.55);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.tb-icon {
+  font-size: 1.6rem;
+  display: flex;
+  align-items: center;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4));
+}
+
+.tb-text {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+/* ── Variants ───────────────────────────── */
+
+.tb-atk {
+  background: rgba(0, 210, 106, 0.18);
+  border-color: rgba(0, 210, 106, 0.50);
+  color: #00E676;
+  box-shadow: 0 0 40px rgba(0, 210, 106, 0.25), 0 12px 48px rgba(0, 0, 0, 0.55);
+}
+
+.tb-def {
+  background: rgba(59, 130, 246, 0.18);
+  border-color: rgba(59, 130, 246, 0.50);
+  color: #60A5FA;
+  box-shadow: 0 0 40px rgba(59, 130, 246, 0.25), 0 12px 48px rgba(0, 0, 0, 0.55);
+}
+
+.tb-wait {
+  background: rgba(100, 116, 139, 0.18);
+  border-color: rgba(100, 116, 139, 0.30);
+  color: var(--color-text-muted);
+}
+
+.tb-take {
+  background: rgba(249, 115, 22, 0.18);
+  border-color: rgba(249, 115, 22, 0.40);
+  color: #FB923C;
+  box-shadow: 0 0 40px rgba(249, 115, 22, 0.2), 0 12px 48px rgba(0, 0, 0, 0.55);
+}

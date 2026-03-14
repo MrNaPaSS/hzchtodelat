@@ -1,0 +1,112 @@
+/* ─────────────────────────────────────────────────────────
+ * Table Area — attack / defense pairs
+ * ───────────────────────────────────────────────────────── */
+
+.table-area {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 100px 8px 12px; /* right offset for deck area */
+  min-height: 0;
+  width: 100%;
+}
+
+/* ── Empty state ────────────────────────── */
+.table-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.14);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  pointer-events: none;
+}
+.table-empty-suits {
+  font-size: 24px;
+  letter-spacing: 6px;
+  opacity: 0.4;
+}
+
+/* ── Pairs grid ─────────────────────────── */
+.table-pairs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  gap: 14px;
+  max-width: 800px; /* Increased for desktop */
+  width: 100%;
+}
+
+/* ── Single pair ────────────────────────── */
+.table-pair {
+  position: relative;
+  width: var(--card-width);
+  height: var(--card-height);
+  cursor: default;
+  flex-shrink: 0;
+}
+
+.table-pair.clickable {
+  cursor: pointer;
+}
+.table-pair.clickable:active {
+  transform: scale(0.97);
+  transition: transform 0.1s ease;
+}
+
+/* Green glow on the attack card when it can be beaten */
+.table-pair.defendable .tp-attack {
+  box-shadow:
+    0 0 0 2px var(--color-primary),
+    0 0 18px rgba(0, 210, 106, 0.45) !important;
+}
+
+/* ── Defense card wrapper ───────────────── */
+.tp-defense-wrap {
+  position: absolute;
+  top: 13px;
+  left: 13px;
+  z-index: 2;
+}
+
+/* ── Taking state ────────────────────────── */
+
+.table-taking-banner {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(249, 115, 22, 0.18);
+  border: 1px solid rgba(249, 115, 22, 0.35);
+  color: #FB923C;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  padding: 4px 14px;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+  z-index: 15;
+  backdrop-filter: blur(10px);
+  pointer-events: none;
+}
+
+/* Open pair glow when defender is taking */
+.table-pair.taking-open .tp-attack {
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.38),
+    0 0 14px rgba(249, 115, 22, 0.3) !important;
+}
+
+/* ── Dashed highlight ring ──────────────── */
+.tp-ring {
+  position: absolute;
+  inset: -6px;
+  border: 2px dashed var(--color-primary);
+  border-radius: calc(var(--card-radius) + 5px);
+  animation: spin 9s linear infinite;
+  pointer-events: none;
+  opacity: 0.75;
+}

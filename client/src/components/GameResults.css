@@ -1,0 +1,177 @@
+/* ============================================================
+ * GAME RESULTS — Enterprise redesign
+ * ============================================================ */
+
+.results-screen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6);
+  z-index: var(--z-overlay);
+  overflow: hidden;
+}
+
+.results-win  { background: radial-gradient(ellipse at 50% 30%, rgba(0,210,106,0.18) 0%, var(--color-bg-primary) 65%); }
+.results-lose { background: radial-gradient(ellipse at 50% 30%, rgba(239,68,68,0.15)  0%, var(--color-bg-primary) 65%); }
+.results-draw { background: var(--color-bg-primary); }
+
+/* ── Confetti ───────────────────────────────────────────── */
+
+.results-confetti {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.confetti-piece {
+  position: absolute;
+  font-size: 1.5rem;
+  animation: confetti-fall 4s ease-in infinite;
+  opacity: 0;
+}
+
+.cp-0 { left: 10%;  animation-delay: 0s;    font-size: 1.2rem; }
+.cp-1 { left: 25%;  animation-delay: 0.4s;  font-size: 1.8rem; }
+.cp-2 { left: 45%;  animation-delay: 0.8s;  }
+.cp-3 { left: 65%;  animation-delay: 1.2s;  font-size: 1.1rem; }
+.cp-4 { left: 80%;  animation-delay: 0.6s;  font-size: 1.5rem; }
+.cp-5 { left: 55%;  animation-delay: 1.6s;  font-size: 2rem;   }
+
+@keyframes confetti-fall {
+  0%   { transform: translateY(-60px) rotate(0deg);   opacity: 1; }
+  100% { transform: translateY(110vh)  rotate(720deg); opacity: 0; }
+}
+
+/* ── Results card ───────────────────────────────────────── */
+
+.results-card {
+  width: 100%;
+  max-width: 380px;
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-xl);
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.results-inner {
+  padding: var(--space-8) var(--space-6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-5);
+  text-align: center;
+}
+
+/* ── Title ──────────────────────────────────────────────── */
+
+.results-title {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.results-title-win {
+  background: linear-gradient(135deg, var(--color-gold) 0%, #FFB300 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 16px rgba(255,215,0,0.40));
+}
+
+.results-title-lose { color: var(--color-text-primary); }
+.results-title-draw { color: var(--color-text-secondary); }
+
+/* ── Durak badge ────────────────────────────────────────── */
+
+.durak-badge {
+  background: linear-gradient(135deg, var(--color-red) 0%, #B91C1C 100%);
+  color: #fff;
+  padding: var(--space-2) var(--space-5);
+  border-radius: var(--radius-full);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--text-sm);
+  letter-spacing: 2px;
+  transform: rotate(-3deg);
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.45);
+}
+
+/* ── Rewards ────────────────────────────────────────────── */
+
+.results-rewards {
+  display: flex;
+  gap: var(--space-3);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.reward-pill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-xl);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.reward-delta {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.reward-stars {
+  background: rgba(255, 215, 0, 0.12);
+  border: 1px solid rgba(255, 215, 0, 0.25);
+  color: var(--color-gold);
+}
+
+.reward-nmnh {
+  background: rgba(168, 85, 247, 0.12);
+  border: 1px solid rgba(168, 85, 247, 0.25);
+  color: var(--color-purple);
+}
+
+/* ── Rating change ──────────────────────────────────────── */
+
+.results-rating {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-5);
+  background: var(--color-bg-tertiary);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+}
+
+.results-rating-label {
+  color: var(--color-text-muted);
+}
+
+.results-rating-delta {
+  font-family: var(--font-display);
+  font-weight: 800;
+}
+
+.delta-pos { color: var(--color-primary); }
+.delta-neg { color: var(--color-red);     }
+
+.results-rating-new {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--color-gold);
+}
+
+/* ── Actions ────────────────────────────────────────────── */
+
+.results-lobby-btn {
+  width: 100%;
+  justify-content: center;
+}

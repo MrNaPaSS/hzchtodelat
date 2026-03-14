@@ -1,0 +1,101 @@
+.pic {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 5px 12px 5px 5px;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.32);
+  transition: border-color 0.25s ease;
+}
+.pic.me    { border-color: rgba(0, 210, 106, 0.18); }
+.pic.taking { border-color: rgba(249, 115, 22, 0.35); }
+
+/* Avatar */
+.pic-avatar {
+  position: relative;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: box-shadow 0.25s ease;
+}
+.pic-avatar.atk  { box-shadow: 0 0 0 2px var(--color-red); }
+.pic-avatar.def  { box-shadow: 0 0 0 2px var(--color-secondary); }
+.pic-avatar.take { box-shadow: 0 0 0 2px #F97316; }
+
+.pic-avatar-img {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.pic-avatar-letter {
+  display: flex; align-items: center; justify-content: center;
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  background: var(--color-bg-tertiary);
+  color: var(--color-text-secondary);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.pic-role-badge {
+  position: absolute;
+  bottom: -2px; right: -2px;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px;
+}
+
+/* Info */
+.pic-info { display: flex; flex-direction: column; gap: 1px; }
+.pic-name {
+  font-size: 12px; font-weight: 600;
+  color: var(--color-text-primary);
+  max-width: 90px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+/* Card count row */
+.pic-cards-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  position: relative;
+}
+.pic-cards {
+  display: inline-block;
+  font-size: 10px;
+  color: var(--color-text-muted);
+}
+
+/* Delta badge (floating +N / -N) */
+.pic-delta {
+  font-size: 10px;
+  font-weight: 700;
+  position: absolute;
+  left: 100%;
+  top: -2px;
+  margin-left: 4px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.pic-delta.pos { color: var(--color-primary); }
+.pic-delta.neg { color: var(--color-red); }
+
+/* Floating emoji */
+.pic-emoji-float {
+  position: absolute;
+  left: 50%; transform: translateX(-50%);
+  font-size: 28px;
+  pointer-events: none;
+  z-index: 50;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+}

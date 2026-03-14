@@ -1,0 +1,180 @@
+/* ─────────────────────────────────────────────────────────
+ * Playing Card — enterprise premium design
+ * ───────────────────────────────────────────────────────── */
+
+.pc {
+  position: relative;
+  width: var(--card-width);
+  height: var(--card-height);
+  background: #FFFEF6;
+  border-radius: var(--card-radius);
+  border: 1px solid rgba(0, 0, 0, 0.13);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 4px 4px;
+  cursor: pointer;
+  user-select: none;
+  flex-shrink: 0;
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.38),
+    0 1px 3px rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92);
+  overflow: hidden;
+  transform-origin: bottom center;
+  will-change: transform;
+}
+
+/* ── Size variants ──────────────────────── */
+.pc.sz-sm {
+  width: calc(var(--card-width) * 0.7);
+  height: calc(var(--card-height) * 0.7);
+  padding: 3px;
+  border-radius: calc(var(--card-radius) * 0.8);
+}
+
+.pc.sz-lg {
+  width: 80px;
+  height: 115px;
+  padding: 5px 6px;
+  border-radius: 10px;
+}
+
+/* ── States ─────────────────────────────── */
+.pc.disabled {
+  cursor: default;
+  pointer-events: none;
+}
+
+.pc.selected {
+  box-shadow:
+    0 0 0 2.5px #00D26A,
+    0 0 22px rgba(0, 210, 106, 0.52),
+    0 10px 22px rgba(0, 0, 0, 0.45);
+  z-index: 50;
+}
+
+.pc.trump {
+  border-color: rgba(255, 215, 0, 0.65);
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.38),
+    0 0 14px rgba(255, 215, 0, 0.28),
+    inset 0 0 18px rgba(255, 215, 0, 0.06);
+}
+
+.pc.valid {
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.38),
+    0 0 12px rgba(0, 210, 106, 0.22);
+}
+
+/* ── Suit colours ───────────────────────── */
+.pc.red  .pc-rank,
+.pc.red  .pc-suit-sm,
+.pc.red  .pc-suit-lg,
+.pc.red  .pc-face-letter,
+.pc.red  .pc-face-suit  { color: #D42B2B; }
+
+.pc.black .pc-rank,
+.pc.black .pc-suit-sm,
+.pc.black .pc-suit-lg,
+.pc.black .pc-face-letter,
+.pc.black .pc-face-suit  { color: #1A1A1A; }
+
+/* ── Corners ────────────────────────────── */
+.pc-corner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+  gap: 1px;
+  flex-shrink: 0;
+}
+.pc-corner.br { transform: rotate(180deg); }
+
+.pc-rank {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
+  letter-spacing: -0.5px;
+}
+.pc-suit-sm {
+  font-size: 10px;
+  line-height: 1.1;
+}
+
+.pc.sz-sm .pc-rank    { font-size: 11px; }
+.pc.sz-sm .pc-suit-sm { font-size: 8px;  }
+.pc.sz-lg .pc-rank    { font-size: 17px; }
+.pc.sz-lg .pc-suit-sm { font-size: 12px; }
+
+/* ── Center ─────────────────────────────── */
+.pc-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.pc-suit-lg {
+  font-size: 31px;
+  line-height: 1;
+  opacity: 0.82;
+}
+
+.pc.sz-sm .pc-suit-lg { font-size: 20px; }
+.pc.sz-lg .pc-suit-lg { font-size: 42px; }
+
+/* Face cards */
+.pc-face {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+.pc-face-letter {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1;
+}
+.pc-face-suit {
+  font-size: 16px;
+  opacity: 0.65;
+  line-height: 1;
+}
+.pc.sz-sm .pc-face-letter { font-size: 14px; }
+.pc.sz-sm .pc-face-suit   { font-size: 10px; }
+.pc.sz-lg .pc-face-letter { font-size: 28px; }
+.pc.sz-lg .pc-face-suit   { font-size: 20px; }
+
+/* ── Gloss ──────────────────────────────── */
+.pc-gloss {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 42%;
+  background: linear-gradient(180deg,
+    rgba(255, 255, 255, 0.38) 0%,
+    rgba(255, 255, 255, 0.00) 100%
+  );
+  border-radius: var(--card-radius) var(--card-radius) 0 0;
+  pointer-events: none;
+}
+
+/* ── Selected tint ──────────────────────── */
+.pc-sel-tint {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at 35% 30%,
+    rgba(0, 210, 106, 0.08) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  border-radius: inherit;
+}

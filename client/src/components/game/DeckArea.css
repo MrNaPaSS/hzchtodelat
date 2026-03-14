@@ -1,0 +1,124 @@
+/* ─────────────────────────────────────────────────────────
+ * Deck Area — deck stack + trump card (right side)
+ * ───────────────────────────────────────────────────────── */
+
+.deck-area {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* ── Trump chip ─────────────────────────── */
+.da-trump-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  background: rgba(0, 0, 0, 0.52);
+  backdrop-filter: blur(10px);
+  padding: 5px 10px;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+.da-trump-sym {
+  font-size: 24px;
+  line-height: 1;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+}
+.da-trump-chip.red   .da-trump-sym { color: #D42B2B; }
+.da-trump-chip.black .da-trump-sym { color: #E5E7EB; }
+.da-trump-lbl {
+  font-size: 8px;
+  color: rgba(255, 255, 255, 0.38);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  font-weight: 700;
+}
+
+/* ── Stack wrapper ──────────────────────── */
+.da-stack-wrap {
+  position: relative;
+  width: var(--card-width);
+  height: var(--card-height);
+  flex-shrink: 0;
+}
+
+/* ── Deck layers (depth effect) ─────────── */
+.da-deck {
+  position: relative;
+  width: var(--card-width);
+  height: var(--card-height);
+}
+.da-layer {
+  position: absolute;
+  width: var(--card-width);
+  height: var(--card-height);
+  border-radius: var(--card-radius);
+  background: linear-gradient(148deg, #005528 0%, #007A3D 100%);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+}
+.da-layer.l1 { top: -2px; left: -2px; }
+.da-layer.l2 { top: -4px; left: -4px; }
+.da-layer.l3 { top: -6px; left: -6px; }
+
+/* Count badge */
+.da-count {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  pointer-events: none;
+}
+.da-count span {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 22px;
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 2px 8px rgba(0,0,0,0.55);
+}
+
+/* Empty state */
+.da-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--card-width);
+  height: var(--card-height);
+  font-size: 26px;
+  opacity: 0.28;
+}
+
+/* ── Trump card (rotated horizontally) ──── */
+.da-trump-card {
+  position: absolute;
+  top: 50%;
+  right: 40%;
+  transform-origin: center center;
+  margin-top: calc(var(--card-height) * -0.5); /* center vertically relative to deck */
+  z-index: -1;
+}
+
+/* ── Discard indicator ──────────────────── */
+.da-discard {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(0, 0, 0, 0.42);
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  color: var(--color-text-muted);
+  font-weight: 600;
+  pointer-events: all;
+}
+.da-discard-icon { font-size: 11px; }
+.da-discard-n    { color: var(--color-text-secondary); }
