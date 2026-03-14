@@ -34,7 +34,7 @@ router.post(
         const { userId, amount } = payload;
         
         try {
-          await prisma.$transaction(async (tx) => {
+          await prisma.$transaction(async (tx: any) => {
             // Find transaction
             const dbTx = await tx.transaction.findFirst({
               where: { userId, amount, status: 'pending', type: 'deposit' },

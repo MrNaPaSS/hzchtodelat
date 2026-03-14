@@ -60,11 +60,11 @@ router.get(
           favoriteMode: 'podkidnoy',
         },
         equippedItems: {
-          cardBack: user.inventory.find((i) => i.item.category === 'card_backs')?.item.assetKey || null,
-          tableTheme: user.inventory.find((i) => i.item.category === 'table_themes')?.item.assetKey || null,
-          avatarFrame: user.inventory.find((i) => i.item.category === 'avatar_frames')?.item.assetKey || null,
-          emojiPack: user.inventory.find((i) => i.item.category === 'emoji_packs')?.item.assetKey || null,
-          winEffect: user.inventory.find((i) => i.item.category === 'win_effects')?.item.assetKey || null,
+          cardBack: user.inventory.find((i: any) => i.item.category === 'card_backs')?.item.assetKey || null,
+          tableTheme: user.inventory.find((i: any) => i.item.category === 'table_themes')?.item.assetKey || null,
+          avatarFrame: user.inventory.find((i: any) => i.item.category === 'avatar_frames')?.item.assetKey || null,
+          emojiPack: user.inventory.find((i: any) => i.item.category === 'emoji_packs')?.item.assetKey || null,
+          winEffect: user.inventory.find((i: any) => i.item.category === 'win_effects')?.item.assetKey || null,
         },
       },
     });
@@ -131,7 +131,7 @@ router.get(
 
     res.json({
       success: true,
-      data: users.map((u, i) => ({
+      data: users.map((u: any, i: number) => ({
         rank: i + 1,
         userId: u.id,
         username: u.username,

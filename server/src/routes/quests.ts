@@ -23,7 +23,7 @@ router.get(
     // For MVP, we return quests with default progress
     res.json({
       success: true,
-      data: quests.map((q) => ({
+      data: quests.map((q: any) => ({
         id: q.id,
         title: q.title,
         description: q.description,
@@ -58,7 +58,7 @@ router.post(
     const user = await prisma.user.findUnique({ where: { id: userId } });
     if (!user) throw new NotFoundError('User');
 
-    await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx: any) => {
       const updateData: any = {};
       if (quest.rewardNmnh > 0) {
         updateData.nmnhBalance = { increment: quest.rewardNmnh };

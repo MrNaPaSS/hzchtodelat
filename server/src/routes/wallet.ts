@@ -54,7 +54,7 @@ router.get(
     res.json({
       success: true,
       data: {
-        transactions: transactions.map((tx) => ({
+        transactions: transactions.map((tx: any) => ({
           id: tx.id,
           type: tx.type,
           amount: tx.amount,

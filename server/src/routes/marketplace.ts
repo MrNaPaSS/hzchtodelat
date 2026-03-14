@@ -20,7 +20,7 @@ router.get(
 
     res.json({
       success: true,
-      data: items.map((item) => ({
+      data: items.map((item: any) => ({
         id: item.id,
         name: item.name,
         description: item.description,
@@ -69,7 +69,7 @@ router.post(
     }
 
     // Transaction: deduct balance + create inventory + create transaction record
-    await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx: any) => {
       if (currency === 'stars') {
         await tx.user.update({
           where: { id: userId },
@@ -121,7 +121,7 @@ router.get(
 
     res.json({
       success: true,
-      data: inventory.map((inv) => ({
+      data: inventory.map((inv: any) => ({
         id: inv.id,
         itemId: inv.itemId,
         name: inv.item.name,
