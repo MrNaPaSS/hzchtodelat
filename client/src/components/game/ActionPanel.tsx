@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { TablePair, Card as CardType, GameSettings } from 'shared';
-import { GameMode } from 'shared';
 import './ActionPanel.css';
 
 const canThrowIn = (card: CardType, table: CardType[]) =>
@@ -40,7 +39,7 @@ const ActionPanel: React.FC<ActionPanelProps> = ({
                       && !!selectedCard && canThrowIn(selectedCard, allTable);
   const canTake     = isMyTurnDefending && !defenderIsTaking;
   const canTransfer = isMyTurnDefending && !defenderIsTaking
-                      && settings.mode === GameMode.Perevodnoy
+                      && settings.mode === 'perevodnoy'
                       && pairs.length > 0
                       && !pairs.some(p => p.defense)
                       && !!selectedCard
