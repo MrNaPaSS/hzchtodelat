@@ -111,12 +111,18 @@ export class GameManager {
    */
   startGame(gameId: string): boolean {
     const game = this.games.get(gameId);
-    if (!game) return false;
+    if (!game) {
+      logger.error(`startGame: Game ${gameId} not found`);
+      return false;
+    }
 
     const started = game.engine.start();
     if (started) {
+      logger.info(`Game ${gameId} started successfully`);
       this.broadcastState(gameId);
       this.startTurnTimer(gameId);
+    } else {
+      logger.warn(`Game ${gameId} failed to start. canStart=${game.engine.canStart()}, players=${game.engine.getPlayerCount()}`);
     }
 
     return started;

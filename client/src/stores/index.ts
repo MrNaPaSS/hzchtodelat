@@ -233,11 +233,15 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
       const prev = get().gameState;
       const myId = useAuthStore.getState().user?.id;
       
-      const isWaiting = state.status === 'waiting';
       const isBotGame = state.players.some(p => p.userId.startsWith('bot'));
       
-      // Only switch to playing view if game has actually started or is a bot game
-      const newView = (isWaiting && !isBotGame) ? get().view : 'playing';
+      // Only stay in current view if we're waiting for players in a non-bot game
+      let newView = get().view;
+      if (state.status === 'playing' || state.status === 'finished' || isBotGame) {
+        newView = 'playing';
+      }
+      
+      console.log(`[Socket] Setting view to: ${newView}`);
       
       set({ gameState: state, view: newView, isLoading: false });
       if (myId) {

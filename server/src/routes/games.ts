@@ -6,6 +6,7 @@ import { gameManager } from '../game/index.js';
 import { BotPlayer } from '../game/BotPlayer.js';
 import { GameMode, DeckSize, ThrowInRule, GameSettings } from 'shared';
 import { forceJoinGameRoom } from '../socket/index.js';
+import { logger } from '../lib/logger.js';
 
 const router = Router();
 
@@ -96,7 +97,8 @@ router.post(
     });
 
     // Add exactly 1 bot to make it a 2-player game.
-    new BotPlayer(gameId, 1);
+    const bot = new BotPlayer(gameId, 1);
+    logger.info(`Bot created for game ${gameId}: ${bot.userId}`);
     
     // Auto-start since room should be full (1 player + 1 bot)
     const game = gameManager.getGame(gameId);
