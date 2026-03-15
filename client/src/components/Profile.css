@@ -2,7 +2,9 @@
  * PROFILE — Enterprise redesign
  * ============================================================ */
 
-.profile {}
+.profile {
+  padding-bottom: calc(var(--space-4) + 90px + max(env(safe-area-inset-bottom, 16px), var(--tg-safe-area-inset-bottom, 16px)));
+}
 
 /* ── Hero Card ──────────────────────────────────────────── */
 

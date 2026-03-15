@@ -187,10 +187,10 @@
   z-index: 10;
 }
 
-/* Push fan to the right of the chip */
+/* Push fan to the right of the chip - REMOVED, chip is now at the top */
 .gb-hand .hand-fan {
-  padding-left: 118px;
   width: 100%;
+  justify-content: center;
 }
 
 /* ── Waiting Overlay ─────────────────────────────────────── */

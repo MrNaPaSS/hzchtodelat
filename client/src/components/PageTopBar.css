@@ -7,7 +7,8 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-3);
-  margin-top: env(safe-area-inset-top, 0);
+  margin-top: max(env(safe-area-inset-top, 0px), var(--tg-safe-area-inset-top, 0px));
+  padding-top: 16px; /* Extra padding for telegram native buttons */
   min-height: 48px;
 }
 

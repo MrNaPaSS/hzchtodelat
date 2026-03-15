@@ -12,6 +12,7 @@
   overflow-x: hidden;
   max-width: 480px;
   margin: 0 auto;
+  margin-top: max(env(safe-area-inset-top, 0px), var(--tg-safe-area-inset-top, 0px));
   width: 100%;
   min-height: 100%;
 }
