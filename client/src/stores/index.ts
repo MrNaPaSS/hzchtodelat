@@ -234,7 +234,7 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
       const myId = useAuthStore.getState().user?.id;
       
       const isWaiting = state.status === 'waiting';
-      const isBotGame = state.players.some(p => p.userId === 'bot');
+      const isBotGame = state.players.some(p => p.userId.startsWith('bot'));
       
       // Only switch to playing view if game has actually started or is a bot game
       const newView = (isWaiting && !isBotGame) ? get().view : 'playing';

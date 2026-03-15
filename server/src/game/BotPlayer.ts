@@ -57,8 +57,10 @@ export class BotPlayer {
 
     try {
       if (isMyTurnAttacking) {
+        logger.debug(`Bot ${this.userId} is attacking`);
         this.handleAttack(state);
       } else if (isMyTurnDefending) {
+        logger.debug(`Bot ${this.userId} is defending`);
         this.handleDefense(state);
       }
     } catch (error) {
@@ -80,6 +82,7 @@ export class BotPlayer {
 
       if (myHand.length > 0) {
         const cardToPlay = myHand[0];
+        logger.debug(`Bot ${this.userId} attacking with ${cardToPlay.rank}${cardToPlay.suit}`);
         gameManager.processAction(this.userId, { type: GameActionType.Attack, card: cardToPlay });
       }
       return;
@@ -105,9 +108,11 @@ export class BotPlayer {
     if (safeThrowIns.length > 0) {
       // Throw the lowest one
       const cardToThrow = safeThrowIns.sort((a, b) => a.value - b.value)[0];
+      logger.debug(`Bot ${this.userId} throwing in ${cardToThrow.rank}${cardToThrow.suit}`);
       gameManager.processAction(this.userId, { type: GameActionType.Attack, card: cardToThrow });
     } else {
       // Pass if we don't want to throw anything
+      logger.debug(`Bot ${this.userId} passing`);
       gameManager.processAction(this.userId, { type: GameActionType.Pass });
     }
   }
@@ -146,10 +151,12 @@ export class BotPlayer {
       // Heuristic: If we are forced to use a high trump (e.g. > 12) early on, maybe just take?
       if (defenseCard.suit === state.trumpSuit && defenseCard.value > 11 && state.deckRemaining > 10) {
          // Pass/Take instead of wasting a high trump early
+         logger.debug(`Bot ${this.userId} taking (decided to save high trump)`);
          gameManager.processAction(this.userId, { type: GameActionType.Take });
          return;
       }
 
+      logger.debug(`Bot ${this.userId} defending with ${defenseCard.rank}${defenseCard.suit}`);
       gameManager.processAction(this.userId, {
         type: GameActionType.Defend,
         card: defenseCard,
@@ -157,6 +164,7 @@ export class BotPlayer {
       });
     } else {
       // Cannot defend, must take
+      logger.debug(`Bot ${this.userId} taking (no valid defense)`);
       gameManager.processAction(this.userId, { type: GameActionType.Take });
     }
   }

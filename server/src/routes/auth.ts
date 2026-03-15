@@ -26,8 +26,8 @@ router.post(
     let telegramId: number;
     let userData: any;
 
-    // Development mode: bypass HMAC validation ONLY if explicitly in development
     const isMockAllowed = process.env.NODE_ENV === 'development' || process.env.DEBUG === 'true';
+    logger.debug(`Auth attempt: isMockAllowed=${isMockAllowed}, initDataPrefix=${initData.substring(0, 20)}`);
 
     if (isMockAllowed && initData === 'mock_init_data') {
       telegramId = 123456789;
@@ -41,6 +41,7 @@ router.post(
     } else {
       const validated = validateTelegramInitData(initData);
       if (!validated) {
+        logger.warn(`Invalid Telegram initData received. Prefix: ${initData.substring(0, 20)}`);
         throw new BadRequestError('Invalid Telegram initData');
       }
 

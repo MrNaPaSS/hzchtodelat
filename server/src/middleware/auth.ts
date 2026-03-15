@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { config } from '../config/index.js';
 import { prisma } from '../lib/prisma.js';
+import { logger } from '../lib/logger.js';
 
 export interface AuthUser {
   id: string;
@@ -49,7 +50,16 @@ export function validateTelegramInitData(initData: string): Record<string, strin
     // Check auth_date is not too old (5 minutes)
     const authDate = parseInt(params.get('auth_date') || '0', 10);
     const now = Math.floor(Date.now() / 1000);
-    if (now - authDate > 300) return null;
+    const drift = now - authDate;
+    
+    if (Math.abs(drift) > 86400) { // If drift is more than a day, something is very wrong
+        logger.error(`Extreme clock drift detected: ${drift}s`);
+    }
+
+    if (drift > 600) { // Increased window to 10 minutes for safety
+        logger.warn(`auth_date is too old: ${drift}s ago`);
+        return null;
+    }
 
     return Object.fromEntries(entries);
   } catch {
