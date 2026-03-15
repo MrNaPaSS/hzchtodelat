@@ -89,13 +89,18 @@ export default function App() {
 
   if (isLoading) return <LoadingScreen />;
 
-  if (error) {
+  const displayError = error || gameError;
+
+  if (displayError) {
     return (
       <div className="error-screen">
         <div className="error-icon">⚠️</div>
-        <h2>Ошибка подключения</h2>
-        <p>{error}</p>
-        <button className="btn btn-primary btn-lg" onClick={() => window.location.reload()}>
+        <h2>Ошибка</h2>
+        <p>{displayError}</p>
+        <button className="btn btn-primary btn-lg" onClick={() => {
+          resetGame();
+          window.location.reload();
+        }}>
           Попробовать снова
         </button>
       </div>
