@@ -105,8 +105,9 @@ router.post(
         lastName: userData.last_name || null,
         avatarUrl: userData.photo_url || '',
         referralCode: uuid().slice(0, 8).toUpperCase(),
-        starsBalance: 100, // Welcome bonus
-        nmnhBalance: 0,
+        starsBalance: 0,
+        nmnhBalance: 1000,
+        totalNmnhEarned: 1000,
       },
     });
 

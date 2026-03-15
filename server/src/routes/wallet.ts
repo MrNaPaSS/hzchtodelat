@@ -24,6 +24,7 @@ router.get(
       data: {
         starsBalance: user.starsBalance,
         nmnhBalance: user.nmnhBalance,
+        maxExchangeable: Math.max(0, user.nmnhBalance - 1000),
         exchangeRate: config.NMNH_EXCHANGE_RATE,
         minExchange: 100,
         minWithdraw: 50,
@@ -86,8 +87,9 @@ router.post(
     const user = await prisma.user.findUnique({ where: { id: userId } });
     if (!user) throw new NotFoundError('User');
 
-    if (user.nmnhBalance < amount) {
-      throw new BadRequestError('Insufficient NMNH balance');
+    const maxExchangeable = Math.max(0, user.nmnhBalance - 1000);
+    if (amount > maxExchangeable) {
+      throw new BadRequestError(`Недостаточно доступных монет. Стартовые 1000 NMNH вывести нельзя.`);
     }
 
     const starsReceived = Math.floor(amount / config.NMNH_EXCHANGE_RATE);
