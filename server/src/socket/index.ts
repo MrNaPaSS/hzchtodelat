@@ -71,6 +71,7 @@ export function setupSocketIO(httpServer: HTTPServer): SocketIOServer {
     onGameStateUpdate: (gameId: string, userId: string, state: GameState) => {
       const socketId = userSocketMap.get(userId);
       if (socketId) {
+        logger.debug(`Sending game:state to user ${userId} for game ${gameId}`);
         io.to(socketId).emit('game:state', state);
       }
     },

@@ -233,7 +233,11 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
       const prev = get().gameState;
       const myId = useAuthStore.getState().user?.id;
       
-      const isBotGame = state.players.some(p => p.userId.startsWith('bot'));
+      const isBotGame = state.players.some(p => 
+        p.userId.startsWith('bot') || 
+        p.username.toLowerCase().includes('bot') || 
+        p.firstName.includes('🤖')
+      );
       
       // Only stay in current view if we're waiting for players in a non-bot game
       let newView = get().view;
