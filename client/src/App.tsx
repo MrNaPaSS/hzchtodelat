@@ -32,19 +32,14 @@ export default function App() {
   useEffect(() => {
     const tg = window.Telegram?.WebApp;
     if (tg) {
-      tg.ready();
-      tg.expand();
-      // Double expand for some devices and request full height
-      setTimeout(() => {
+      try {
+        tg.ready();
         tg.expand();
-      }, 200);
-      
-      tg.setBackgroundColor('#060B1A');
-      tg.setHeaderColor('#060B1A');
-      
-      // Locking orientation if possible (some devices support this)
-      if ((tg as any).requestFullscreen) {
-        (tg as any).requestFullscreen();
+        setTimeout(() => { try { tg.expand(); } catch(e) {} }, 200);
+        try { tg.setBackgroundColor('#060B1A'); } catch(e) {}
+        try { tg.setHeaderColor('#060B1A'); } catch(e) {}
+      } catch (e) {
+        console.warn('Telegram WebApp init error:', e);
       }
     }
 
