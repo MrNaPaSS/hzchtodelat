@@ -127,9 +127,18 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
   isChatOpen: false,
   createdGameCode: null,
 
-  setView: (view) => set({ view }),
-  setGameState: (state) => set({ gameState: state, view: 'playing' }),
-  setGameResult: (result) => set({ gameResult: result, view: 'results' }),
+  setView: (view) => {
+    console.log(`[Store] setView: ${view}`);
+    set({ view });
+  },
+  setGameState: (state) => {
+    console.log(`[Store] setGameState: status=${state.status}`);
+    set({ gameState: state, view: 'playing' });
+  },
+  setGameResult: (result) => {
+    console.log(`[Store] setGameResult`);
+    set({ gameResult: result, view: 'results' });
+  },
 
   quickMatch: async () => {
     set({ isLoading: true, error: null, view: 'searching' });
