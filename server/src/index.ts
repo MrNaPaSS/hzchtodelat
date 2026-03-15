@@ -33,7 +33,7 @@ async function bootstrap(): Promise<void> {
   app.use(helmet());
   app.use(
     cors({
-      origin: [config.CLIENT_URL, 'http://localhost:5173', 'http://localhost:3000'],
+      origin: [config.CLIENT_URL, 'http://localhost:5173', 'http://localhost:3000', 'https://suspension-diagnosis-laura-cdt.trycloudflare.com'],
       credentials: true,
     }),
   );
