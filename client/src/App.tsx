@@ -26,7 +26,7 @@ const pageTransition = {
 
 export default function App() {
   const { isAuthenticated, isLoading, error, authenticate } = useAuthStore();
-  const { view, initSocketListeners } = useGameStore();
+  const { view, initSocketListeners, error: gameError, resetGame } = useGameStore();
   const { screen } = useUIStore();
 
   useEffect(() => {

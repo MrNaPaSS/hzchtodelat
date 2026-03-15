@@ -74,44 +74,59 @@ router.post(
 
     const existingGameId = gameManager.getPlayerGameId(user.id);
     if (existingGameId) {
+      const state = gameManager.getGameState(user.id);
+      const isBotGame = state?.players.some(p => p.userId.startsWith('bot'));
+      
+      if (isBotGame) {
+        logger.info(`User ${user.id} re-joining existing bot game ${existingGameId}`);
+        forceJoinGameRoom(user.id, existingGameId);
+        res.json({ success: true, data: { gameId: existingGameId } });
+        return;
+      }
+      
       throw new BadRequestError('Already in a game. Leave current game first.');
     }
 
-    const gameId = gameManager.createGame({
-      mode: GameMode.Podkidnoy,
-      deckSize: DeckSize.Medium,
-      maxPlayers: 2,
-      stake: 10,
-      throwInRule: ThrowInRule.Neighbors,
-      allowDraw: false,
-      turnTimerSeconds: 30,
-      isPrivate: true,
-    });
+    try {
+      const gameId = gameManager.createGame({
+        mode: GameMode.Podkidnoy,
+        deckSize: DeckSize.Medium,
+        maxPlayers: 2,
+        stake: 10,
+        throwInRule: ThrowInRule.Neighbors,
+        allowDraw: false,
+        turnTimerSeconds: 30,
+        isPrivate: true,
+      });
 
-    gameManager.joinGame(gameId, {
-      userId: user.id,
-      username: user.username,
-      firstName: user.firstName,
-      avatarUrl: '',
-      rating: 1000,
-    });
+      gameManager.joinGame(gameId, {
+        userId: user.id,
+        username: user.username,
+        firstName: user.firstName,
+        avatarUrl: '',
+        rating: 1000,
+      });
 
-    // Add exactly 1 bot to make it a 2-player game.
-    const bot = new BotPlayer(gameId, 1);
-    logger.info(`Bot created for game ${gameId}: ${bot.userId}`);
-    
-    // Auto-start since room should be full (1 player + 1 bot)
-    const game = gameManager.getGame(gameId);
-    if (game?.engine.canStart()) {
-      gameManager.startGame(gameId);
+      // Add exactly 1 bot to make it a 2-player game.
+      const bot = new BotPlayer(gameId, 1);
+      logger.info(`Bot created for game ${gameId}: ${bot.userId}`);
+      
+      // Auto-start since room should be full (1 player + 1 bot)
+      const game = gameManager.getGame(gameId);
+      if (game?.engine.canStart()) {
+        gameManager.startGame(gameId);
+      }
+
+      forceJoinGameRoom(user.id, gameId);
+
+      res.status(201).json({
+        success: true,
+        data: { gameId },
+      });
+    } catch (error) {
+      logger.error('Error creating bot game:', error);
+      throw error;
     }
-
-    forceJoinGameRoom(user.id, gameId);
-
-    res.status(201).json({
-      success: true,
-      data: { gameId },
-    });
   }),
 );
 
