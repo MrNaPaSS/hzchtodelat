@@ -232,7 +232,14 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
     socket.on('game:state', (state) => {
       const prev = get().gameState;
       const myId = useAuthStore.getState().user?.id;
-      set({ gameState: state, view: 'playing', isLoading: false });
+      
+      const isWaiting = state.status === 'waiting';
+      const isBotGame = state.players.some(p => p.userId === 'bot');
+      
+      // Only switch to playing view if game has actually started or is a bot game
+      const newView = (isWaiting && !isBotGame) ? get().view : 'playing';
+      
+      set({ gameState: state, view: newView, isLoading: false });
       if (myId) {
         if (state.currentAttackerId === myId && prev?.currentAttackerId !== myId)
           get().addGameToast('Ваш ход! Атакуйте', 'success', '⚔️');
