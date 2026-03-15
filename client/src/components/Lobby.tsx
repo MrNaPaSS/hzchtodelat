@@ -94,6 +94,11 @@ export default function Lobby() {
       // Modal stays open if it's private to show the code, or closes if search starts
       if (!isPrivate) {
         setShowCreateModal(false);
+        // Refresh room list so the newly created room is visible
+        api.listGames().then(res => {
+          const data = (res as any).data || res;
+          setRooms(data.slice(0, 4));
+        }).catch(console.error);
       }
       window.Telegram?.WebApp?.HapticFeedback?.notificationOccurred('success');
     } catch (err: any) {

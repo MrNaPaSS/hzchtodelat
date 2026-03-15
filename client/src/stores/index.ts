@@ -158,10 +158,14 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
       const socket = getSocket();
       socket?.emit('game:join', { gameId });
       
-      if (!settings.isPrivate) {
-        set({ view: 'searching' });
-      }
       set({ createdGameCode: password || null, isLoading: false });
+      
+      // Notify the user that they can wait in the lobby
+      get().addGameToast(
+        settings.isPrivate ? 'Приватная комната создана' : 'Комната создана! Ждем соперника', 
+        'success', 
+        '🏠'
+      );
     } catch (err: any) {
       set({ error: err.message, isLoading: false });
     }
