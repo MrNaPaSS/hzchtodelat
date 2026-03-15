@@ -7,8 +7,6 @@ import './Lobby.css';
 // Removed unused GameRoom interface
 
 const FEATURE_TILES = [
-  { id: 'create',      icon: '🏠', label: 'Комната',   color: '#EF4444', bg: 'rgba(239,68,68,0.18)',    badge: null      },
-  { id: 'join-code',   icon: '🔑', label: 'По коду',   color: '#A855F7', bg: 'rgba(168,85,247,0.18)',   badge: null      },
   { id: 'tournaments', icon: '🏆', label: 'Турниры',   color: '#FFD700', bg: 'rgba(255,215,0,0.18)',    badge: 'СКОРО'   },
   { id: 'leaderboard', icon: '📊', label: 'Рейтинг',   color: '#3B82F6', bg: 'rgba(59,130,246,0.18)',   badge: null      },
   { id: 'friends',     icon: '👥', label: 'Друзья',    color: '#00D26A', bg: 'rgba(0,210,106,0.18)',    badge: null      },
@@ -23,7 +21,7 @@ const MODE_LABELS: Record<string, string> = {
 
 export default function Lobby() {
   const { user } = useAuthStore();
-  const { quickMatch, playWithBot, createGame, joinGame, createdGameCode, setCreatedGameCode, isLoading } = useGameStore();
+  const { playWithBot, createGame, joinGame, createdGameCode, setCreatedGameCode, isLoading } = useGameStore();
   const { setScreen } = useUIStore();
 
   const [rooms, setRooms] = useState<any[]>([]);
@@ -73,8 +71,6 @@ export default function Lobby() {
   }, []);
 
   if (!user) return null;
-
-  const handleQuickPlay = () => quickMatch();
 
   const handleCreateGame = async () => {
     if (user.nmnhBalance < stake) {
@@ -190,36 +186,51 @@ export default function Lobby() {
         <p className="hero-subtitle">Играй · Побеждай · Зарабатывай Stars</p>
       </div>
 
-      {/* ── Quick Game CTA ─────────────────────── */}
-      <motion.button
-        className={`quick-game-btn${isLoading ? ' loading' : ''}`}
-        onClick={handleQuickPlay}
-        disabled={isLoading}
-        whileTap={{ scale: 0.97 }}
-      >
-        <span className="quick-icon">🎮</span>
-        <div className="quick-text">
-          <span className="quick-title">{isLoading ? 'Поиск...' : 'Быстрая игра'}</span>
-          <span className="quick-desc">Найти случайного соперника</span>
-        </div>
-        {!isLoading && <span className="quick-chevron">›</span>}
-      </motion.button>
+      {/* ── Main Action Buttons ─────────────────── */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <motion.button
+          className={`quick-game-btn bot-game-btn${isLoading ? ' loading' : ''}`}
+          onClick={playWithBot}
+          disabled={isLoading}
+          whileTap={{ scale: 0.97 }}
+          style={{ background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(37, 99, 235, 0.4) 100%)', border: '1px solid rgba(59, 130, 246, 0.4)' }}
+        >
+          <span className="quick-icon">🤖</span>
+          <div className="quick-text">
+            <span className="quick-title">Игра с ботом</span>
+            <span className="quick-desc">Разминка против компьютера</span>
+          </div>
+          {!isLoading && <span className="quick-chevron">›</span>}
+        </motion.button>
 
-      {/* ── Bot Game CTA ─────────────────────── */}
-      <motion.button
-        className={`quick-game-btn bot-game-btn${isLoading ? ' loading' : ''}`}
-        onClick={playWithBot}
-        disabled={isLoading}
-        whileTap={{ scale: 0.97 }}
-        style={{ marginTop: 8, background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(37, 99, 235, 0.4) 100%)', border: '1px solid rgba(59, 130, 246, 0.4)' }}
-      >
-        <span className="quick-icon">🤖</span>
-        <div className="quick-text">
-          <span className="quick-title">Игра с ботом</span>
-          <span className="quick-desc">Тренировка против ИИ</span>
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <motion.button
+            className={`quick-game-btn`}
+            onClick={() => setShowCreateModal(true)}
+            disabled={isLoading}
+            whileTap={{ scale: 0.97 }}
+            style={{ flex: 1, padding: '12px 16px', background: 'rgba(239, 68, 68, 0.15)', border: '1px solid rgba(239, 68, 68, 0.3)' }}
+          >
+            <span className="quick-icon" style={{ background: 'rgba(239, 68, 68, 0.2)' }}>🏠</span>
+            <div className="quick-text">
+              <span className="quick-title" style={{ fontSize: '14px' }}>Создать</span>
+            </div>
+          </motion.button>
+          
+          <motion.button
+             className={`quick-game-btn`}
+             onClick={() => setShowJoinModal(true)}
+             disabled={isLoading}
+             whileTap={{ scale: 0.97 }}
+             style={{ flex: 1, padding: '12px 16px', background: 'rgba(168, 85, 247, 0.15)', border: '1px solid rgba(168, 85, 247, 0.3)' }}
+           >
+             <span className="quick-icon" style={{ background: 'rgba(168, 85, 247, 0.2)' }}>🔑</span>
+             <div className="quick-text">
+               <span className="quick-title" style={{ fontSize: '14px' }}>По коду</span>
+             </div>
+           </motion.button>
         </div>
-        {!isLoading && <span className="quick-chevron">›</span>}
-      </motion.button>
+      </div>
 
       {/* ── Feature Grid ───────────────────────── */}
       <div className="feature-grid">
@@ -342,6 +353,18 @@ export default function Lobby() {
               ) : (
                 <>
                   <div className="setting-group">
+                    <div className="privacy-toggle" onClick={() => setIsPrivate(!isPrivate)}>
+                      <div className="toggle-info">
+                        <span className="toggle-label">Приватная комната</span>
+                        <span className="toggle-desc">Вход только по секретному коду</span>
+                      </div>
+                      <div className={`toggle-switch ${isPrivate ? 'active' : ''}`}>
+                        <div className="toggle-handle" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="setting-group">
                     <label>Режим игры</label>
                     <div className="mode-tabs">
                       <button 
@@ -370,17 +393,7 @@ export default function Lobby() {
                     </div>
                   </div>
 
-                  <div className="setting-group">
-                    <div className="privacy-toggle" onClick={() => setIsPrivate(!isPrivate)}>
-                      <div className="toggle-info">
-                        <span className="toggle-label">Приватная комната</span>
-                        <span className="toggle-desc">Вход только по секретному коду</span>
-                      </div>
-                      <div className={`toggle-switch ${isPrivate ? 'active' : ''}`}>
-                        <div className="toggle-handle" />
-                      </div>
-                    </div>
-                  </div>
+
                   
                   <p className="modal-hint">Победитель забирает весь банк (за вычетом комиссии 10%)</p>
                 </>
