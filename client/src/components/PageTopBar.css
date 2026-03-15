@@ -7,17 +7,24 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-3);
-  margin-top: max(env(safe-area-inset-top, 0px), var(--tg-safe-area-inset-top, 0px));
-  padding-top: 16px; /* Extra padding for telegram native buttons */
+  margin-top: env(safe-area-inset-top, 0);
   min-height: 48px;
+  position: relative;
+}
+
+.ptb-side {
+  display: flex;
+  align-items: center;
+  width: 44px; /* fixed width to balance flex */
+  flex-shrink: 0;
 }
 
 .ptb-left {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  min-width: 0;
-  flex: 1;
+  justify-content: flex-start;
+}
+
+.ptb-right {
+  justify-content: flex-end;
 }
 
 .ptb-back-btn {
@@ -40,11 +47,17 @@
   border-color: var(--color-border-hover);
 }
 
-.ptb-title-group {
+.ptb-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
   gap: 1px;
-  min-width: 0;
+  width: 60%;
+  pointer-events: none; /* Let clicks pass if needed */
 }
 
 .ptb-title {
@@ -72,6 +85,7 @@
   flex-shrink: 0;
   border-radius: 50%;
   transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  pointer-events: auto; /* Re-enable clicks inside side containers */
 }
 
 .ptb-avatar-btn:hover {

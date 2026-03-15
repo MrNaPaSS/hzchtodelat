@@ -42,6 +42,7 @@ export default function Wallet() {
   const [exchangeAmount, setExchangeAmount] = useState('');
   const [showExchange, setShowExchange] = useState(false);
   const [showBuyTokens, setShowBuyTokens] = useState(false);
+  const [showDepositStars, setShowDepositStars] = useState(false);
   const [processing, setProcessing]     = useState(false);
 
   useEffect(() => {
@@ -95,15 +96,16 @@ export default function Wallet() {
     }
   };
 
-  const handleDepositStars = async () => {
+  const handleDepositStars = async (amount: number) => {
     setProcessing(true);
     try {
-      const { invoiceUrl } = await api.createDeposit(50); // Default 50 for now or show modal
+      const { invoiceUrl } = await api.createDeposit(amount);
       if (window.Telegram?.WebApp?.openInvoice) {
         window.Telegram.WebApp.openInvoice(invoiceUrl, async (status: string) => {
           if (status === 'paid') {
             await refreshProfile();
             api.getWallet().then(setWalletInfo);
+            setShowDepositStars(false);
           }
         });
       } else {
@@ -117,9 +119,8 @@ export default function Wallet() {
   };
 
   const handleShareReferral = () => {
-    const botUsername = 'durak_game_bot'; // Replace with actual bot username if known
-    const link = `https://t.me/${botUsername}?start=${user?.referralCode}`;
-    const text = `Играй со мной в Дурака и получай бонусы! 🃏\n${link}`;
+    const link = `https://t.me/rich_durak_online_bot/app?startapp=${user?.referralCode}`;
+    const text = `Играй со мной в Дурака и получай бонусы! 🃏`;
     
     if (window.Telegram?.WebApp) {
       (window.Telegram.WebApp as any).openTelegramLink(`https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(text)}`);
@@ -153,14 +154,14 @@ export default function Wallet() {
           <div className="wallet-card-actions">
             <button
               className="btn btn-gold btn-sm wallet-card-btn"
-              onClick={handleDepositStars}
+              onClick={() => { setShowDepositStars(!showDepositStars); setShowBuyTokens(false); setShowExchange(false); }}
               disabled={processing}
             >
-              Пополнить
+              {showDepositStars ? 'Закрыть' : 'Пополнить'}
             </button>
             <button
               className="btn btn-primary btn-sm wallet-card-btn"
-              onClick={() => { setShowBuyTokens(!showBuyTokens); setShowExchange(false); }}
+              onClick={() => { setShowBuyTokens(!showBuyTokens); setShowExchange(false); setShowDepositStars(false); }}
             >
               Купить 🪙
             </button>
@@ -176,13 +177,35 @@ export default function Wallet() {
           <div className="wallet-card-actions">
             <button
               className="btn btn-secondary btn-sm wallet-card-btn"
-              onClick={() => { setShowExchange(!showExchange); setShowBuyTokens(false); }}
+              onClick={() => { setShowExchange(!showExchange); setShowBuyTokens(false); setShowDepositStars(false); }}
             >
               {showExchange ? 'Закрыть' : 'Обменять ⭐'}
             </button>
           </div>
         </div>
       </div>
+
+      {/* ── Deposit Stars Tokens ── */}
+      {showDepositStars && (
+        <div className="exchange-panel card-surface animate-slide-up" style={{ marginBottom: '16px' }}>
+          <div className="exchange-title">
+            <span>Пополнить ⭐ Telegram Stars</span>
+            <span className="exchange-rate">Выберите пакет</span>
+          </div>
+          <div className="buy-tokens-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
+            {[50, 100, 250, 500, 1000, 2500].map(amt => (
+              <button 
+                key={amt} 
+                className="buy-token-item glass"
+                onClick={() => handleDepositStars(amt)}
+                disabled={processing}
+              >
+                <div className="buy-amt">⭐ {amt.toLocaleString()}</div>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* ── Buy NMNH Tokens ── */}
       {showBuyTokens && (
@@ -263,6 +286,17 @@ export default function Wallet() {
             {[0, 1, 2, 3].map((i) => (
               <div key={i} className="tx-skeleton shimmer" />
             ))}
+          </div>
+        ) : !transactions.some(tx => ['deposit', 'purchase'].includes(tx.type)) ? (
+          <div className="tx-empty">
+            <span className="tx-empty-icon">💳</span>
+            <p>Транзакции появятся после первой покупки</p>
+            <button 
+              className="btn btn-primary btn-sm mt-2"
+              onClick={() => { setShowBuyTokens(true); setShowDepositStars(false); setShowExchange(false); }}
+            >
+              Перейти к покупкам
+            </button>
           </div>
         ) : transactions.length === 0 ? (
           <div className="tx-empty">

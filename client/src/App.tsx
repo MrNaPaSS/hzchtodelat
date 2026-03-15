@@ -75,7 +75,7 @@ export default function App() {
         <p>Для игры запустите нашего бота в приложении Telegram.</p>
         <div style={{ marginTop: '20px' }}>
           <a
-            href="https://t.me/rich_durak_online_bot"
+            href="https://t.me/rich_durak_online_bot/app"
             className="btn btn-primary"
             target="_blank"
             rel="noopener noreferrer"
