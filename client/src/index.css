@@ -92,9 +92,9 @@
   --z-toast: 300;
 
   /* ─── Game ─────────────────────────────────────────── */
-  --card-width: 75px;
-  --card-height: 110px;
-  --card-radius: 8px;
+  --card-width: 55px;
+  --card-height: 82px;
+  --card-radius: 6px;
   --table-bg: radial-gradient(ellipse at center, #1a3a2a 0%, #0d2618 50%, #091a10 100%);
 }
 

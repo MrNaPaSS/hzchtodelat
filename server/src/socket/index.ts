@@ -13,6 +13,26 @@ interface AuthenticatedSocket extends Socket<ClientToServerEvents, ServerToClien
 /** Map userId → socketId for routing messages to specific players */
 const userSocketMap = new Map<string, string>();
 
+let ioInstance: SocketIOServer | null = null;
+
+export function forceJoinGameRoom(userId: string, gameId: string) {
+  if (!ioInstance) return;
+  const socketId = userSocketMap.get(userId);
+  if (!socketId) return;
+
+  const socket = ioInstance.sockets.sockets.get(socketId);
+  if (socket) {
+    socket.join(`game:${gameId}`);
+    logger.debug(`Forced user ${userId} to join room game:${gameId}`);
+    
+    // Immediately send state
+    const state = gameManager.getGameState(userId);
+    if (state) {
+      socket.emit('game:state', state);
+    }
+  }
+}
+
 export function setupSocketIO(httpServer: HTTPServer): SocketIOServer {
   const io = new SocketIOServer<ClientToServerEvents, ServerToClientEvents>(httpServer, {
     cors: {
@@ -159,5 +179,6 @@ export function setupSocketIO(httpServer: HTTPServer): SocketIOServer {
   });
 
   logger.info('✅ Socket.IO initialized');
+  ioInstance = io;
   return io;
 }

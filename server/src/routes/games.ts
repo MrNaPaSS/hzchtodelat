@@ -5,6 +5,7 @@ import { asyncHandler, BadRequestError, NotFoundError } from '../middleware/erro
 import { gameManager } from '../game/index.js';
 import { BotPlayer } from '../game/BotPlayer.js';
 import { GameMode, DeckSize, ThrowInRule, GameSettings } from 'shared';
+import { forceJoinGameRoom } from '../socket/index.js';
 
 const router = Router();
 
@@ -45,7 +46,6 @@ router.post(
 
     const gameId = gameManager.createGame(settings as GameSettings);
 
-    // Auto-join the creator
     gameManager.joinGame(gameId, {
       userId: user.id,
       username: user.username,
@@ -53,6 +53,8 @@ router.post(
       avatarUrl: '',
       rating: 1000,
     });
+
+    forceJoinGameRoom(user.id, gameId);
 
     res.status(201).json({
       success: true,
@@ -101,6 +103,8 @@ router.post(
     if (game?.engine.canStart()) {
       gameManager.startGame(gameId);
     }
+
+    forceJoinGameRoom(user.id, gameId);
 
     res.status(201).json({
       success: true,
@@ -164,6 +168,8 @@ router.post(
       gameManager.startGame(gameId);
     }
 
+    forceJoinGameRoom(user.id, gameId);
+
     res.json({
       success: true,
       data: { gameId },
@@ -208,6 +214,8 @@ router.post(
       if (game?.engine.canStart() && game.engine.getPlayerCount() === game.engine.getStateForPlayer('').settings.maxPlayers) {
         gameManager.startGame(gameId);
       }
+      
+      forceJoinGameRoom(user.id, gameId);
     } else {
       // Create a new game with default settings
       gameId = gameManager.createGame({
@@ -228,6 +236,8 @@ router.post(
         avatarUrl: '',
         rating: 1000,
       });
+      
+      forceJoinGameRoom(user.id, gameId);
     }
 
     res.json({

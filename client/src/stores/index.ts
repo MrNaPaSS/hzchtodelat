@@ -134,9 +134,9 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
   quickMatch: async () => {
     set({ isLoading: true, error: null, view: 'searching' });
     try {
-      const { gameId } = await api.quickMatch();
-      const socket = getSocket();
-      socket?.emit('game:join', { gameId });
+      await api.quickMatch();
+      // We don't need to manually emit 'game:join' anymore.
+      // The server will automatically add us to the game and send 'game:state'.
     } catch (err: any) {
       set({ error: err.message, isLoading: false, view: 'lobby' });
     }
@@ -145,9 +145,7 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
   playWithBot: async () => {
     set({ isLoading: true, error: null, view: 'searching' });
     try {
-      const { gameId } = await api.playWithBot();
-      const socket = getSocket();
-      socket?.emit('game:join', { gameId });
+      await api.playWithBot();
     } catch (err: any) {
       set({ error: err.message, isLoading: false, view: 'lobby' });
     }

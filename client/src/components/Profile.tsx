@@ -26,7 +26,7 @@ export default function Profile() {
 
   const handleShare = () => {
     const text = `Давай сыграем в Дурак Онлайн! Мой реферальный код: ${user.referralCode}`;
-    const url = `https://t.me/share/url?url=${encodeURIComponent('https://t.me/durak_online_bot')}&text=${encodeURIComponent(text)}`;
+    const url = `https://t.me/share/url?url=${encodeURIComponent('https://t.me/rich_durak_online_bot')}&text=${encodeURIComponent(text)}`;
     window.open(url, '_blank');
   };
 

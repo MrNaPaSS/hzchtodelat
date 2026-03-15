@@ -38,6 +38,9 @@ export default function App() {
         setTimeout(() => { try { tg.expand(); } catch(e) {} }, 200);
         try { tg.setBackgroundColor('#060B1A'); } catch(e) {}
         try { tg.setHeaderColor('#060B1A'); } catch(e) {}
+        if (typeof (tg as any).requestFullscreen === 'function') {
+          try { (tg as any).requestFullscreen(); } catch(e) {}
+        }
       } catch (e) {
         console.warn('Telegram WebApp init error:', e);
       }
@@ -72,7 +75,7 @@ export default function App() {
         <p>Для игры запустите нашего бота в приложении Telegram.</p>
         <div style={{ marginTop: '20px' }}>
           <a
-            href="https://t.me/durak_online_bot"
+            href="https://t.me/rich_durak_online_bot"
             className="btn btn-primary"
             target="_blank"
             rel="noopener noreferrer"

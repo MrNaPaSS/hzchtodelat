@@ -291,16 +291,29 @@ export default function GameBoard() {
 
       {/* ── Opponent zone ───────────────────────── */}
       <section className="gb-opponent" aria-label="Соперник">
-        <PlayerInfoChip
-          username={opponent?.username ?? 'Соперник'}
-          avatarUrl={opponent?.avatarUrl}
-          cardCount={opponent?.cardCount ?? 0}
-          isAttacker={gameState.currentAttackerId === opponent?.userId}
-          isDefender={gameState.currentDefenderId === opponent?.userId}
-          isTaking={defenderIsTaking && gameState.currentDefenderId === opponent?.userId}
-          emojiReaction={opponentLatestEmoji}
-          className="gb-opp-chip"
-        />
+        <div style={{ display: 'flex', gap: '24px', justifyContent: 'center', width: '100%' }}>
+          <PlayerInfoChip
+            username={opponent?.username ?? 'Соперник'}
+            avatarUrl={opponent?.avatarUrl}
+            cardCount={opponent?.cardCount ?? 0}
+            isAttacker={gameState.currentAttackerId === opponent?.userId}
+            isDefender={gameState.currentDefenderId === opponent?.userId}
+            isTaking={defenderIsTaking && gameState.currentDefenderId === opponent?.userId}
+            emojiReaction={opponentLatestEmoji}
+            className="gb-opp-chip"
+          />
+          <PlayerInfoChip
+            username={me?.username ?? user.firstName}
+            avatarUrl={me?.avatarUrl ?? user.avatarUrl}
+            cardCount={gameState.myHand.length}
+            isAttacker={isMyTurnAttacking}
+            isDefender={isMyTurnDefending}
+            isTaking={defenderIsTaking && isMyTurnDefending}
+            isMe
+            emojiReaction={myLatestEmoji}
+            className="gb-opp-chip"
+          />
+        </div>
         <HandFan
           cards={opponentFakeCards}
           isFaceDown
@@ -363,17 +376,6 @@ export default function GameBoard() {
         className={`gb-hand ${isMyTurnAttacking ? 'turn-atk' : isMyTurnDefending ? 'turn-def' : ''} ${defenderIsTaking && isMyTurnAttacking ? 'turn-throwing' : ''}`}
         aria-label="Мои карты"
       >
-        <PlayerInfoChip
-          username={me?.username ?? user.firstName}
-          avatarUrl={me?.avatarUrl ?? user.avatarUrl}
-          cardCount={gameState.myHand.length}
-          isAttacker={isMyTurnAttacking}
-          isDefender={isMyTurnDefending}
-          isTaking={defenderIsTaking && isMyTurnDefending}
-          isMe
-          emojiReaction={myLatestEmoji}
-          className="gb-my-chip"
-        />
         <HandFan
           cards={gameState.myHand}
           selectedCard={selectedCard}

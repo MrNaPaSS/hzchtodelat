@@ -35,7 +35,7 @@ export default function Friends() {
 
   const handleInvite = () => {
     const shareText = `Давай сыграем в Дурак Онлайн! Мой реферальный код: ${user?.referralCode}`;
-    const shareUrl = `https://t.me/share/url?url=${encodeURIComponent('https://t.me/durak_online_bot')}&text=${encodeURIComponent(shareText)}`;
+    const shareUrl = `https://t.me/share/url?url=${encodeURIComponent('https://t.me/rich_durak_online_bot')}&text=${encodeURIComponent(shareText)}`;
     window.open(shareUrl, '_blank');
   };
 
